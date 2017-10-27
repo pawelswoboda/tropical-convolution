@@ -1,7 +1,6 @@
 # tropical-convolution 
 
-[![Build Status]((https://travis-ci.org/pawelswoboda/tropical-convolution.svg?branch=master)](https://travis-ci.org/pawelswoboda/tropical-convolution)
-
+[![Build Status](https://travis-ci.org/pawelswoboda/tropical-convolution.svg?branch=master)](https://travis-ci.org/pawelswoboda/tropical-convolution)
 
 efficient convolution in (min,+) algebra.
 
