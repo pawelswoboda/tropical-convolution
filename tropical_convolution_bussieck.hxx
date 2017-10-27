@@ -132,22 +132,6 @@ namespace tropical_convolution {
 
      } // end namespace detail
 
-     template<typename INPUT_ITERATOR_1, typename INPUT_ITERATOR_2, typename OUTPUT_ITERATOR>
-     void min_conv_Bussieck_et_al(INPUT_ITERATOR_1 a_begin, INPUT_ITERATOR_1 a_end, INPUT_ITERATOR_2 b_begin, INPUT_ITERATOR_2 b_end, OUTPUT_ITERATOR result_begin, OUTPUT_ITERATOR result_end)
-     {
-        using VALUE_TYPE = typename std::iterator_traits<INPUT_ITERATOR_1>::value_type;
-       // define output iterators that will do nothing (for not recording optimal indices
-       struct null_value {
-           null_value& operator=(VALUE_TYPE) { return *this; }
-       };
-       struct null_iterator {
-         null_value operator*() { return null_value(); }
-         null_value operator[](std::size_t) { return null_value(); }
-       } null_it;
-     
-       min_conv_Bussieck_et_al(a_begin, a_end, b_begin, b_end, result_begin, result_end, null_it);
-     }
-
       // additionally return the index coming from the first vector for the optimum convolution. 
       template<typename INPUT_ITERATOR_1, typename INPUT_ITERATOR_2, typename OUTPUT_ITERATOR_VAL, typename OUTPUT_ITERATOR_INDEX>
       void min_conv_Bussieck_et_al(
@@ -227,6 +211,24 @@ namespace tropical_convolution {
          }
        }
      }
+
+      // only return values of min convolution.
+     template<typename INPUT_ITERATOR_1, typename INPUT_ITERATOR_2, typename OUTPUT_ITERATOR>
+     void min_conv_Bussieck_et_al(INPUT_ITERATOR_1 a_begin, INPUT_ITERATOR_1 a_end, INPUT_ITERATOR_2 b_begin, INPUT_ITERATOR_2 b_end, OUTPUT_ITERATOR result_begin, OUTPUT_ITERATOR result_end)
+     {
+        using VALUE_TYPE = typename std::iterator_traits<INPUT_ITERATOR_1>::value_type;
+       // define output iterators that will do nothing (for not recording optimal indices).
+       struct null_value {
+           null_value& operator=(VALUE_TYPE) { return *this; }
+       };
+       struct null_iterator {
+         null_value operator*() { return null_value(); }
+         null_value operator[](std::size_t) { return null_value(); }
+       } null_it;
+     
+       min_conv_Bussieck_et_al(a_begin, a_end, b_begin, b_end, result_begin, result_end, null_it);
+     }
+
 
 } // end namespace tropical_convolution
 
