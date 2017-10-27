@@ -21,7 +21,7 @@ before_install:
 script:
   - cmake .
   - make
-  - tropical_convolution_test
+  - ./tropical_convolution_test
 
 notifications:
    email: false
