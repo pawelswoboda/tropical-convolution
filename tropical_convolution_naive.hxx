@@ -39,7 +39,7 @@ namespace tropical_convolution {
           INPUT_ITERATOR_1 a_begin, INPUT_ITERATOR_1 a_end, INPUT_ITERATOR_2 b_begin, INPUT_ITERATOR_2 b_end, 
           OUTPUT_ITERATOR_VAL result_begin, OUTPUT_ITERATOR_VAL result_end, OUTPUT_ITERATOR_INDEX result_index_a_begin)
       {
-         using VALUE_TYPE = typename std::iterator_traits<INPUT_ITERATOR_1>::value;
+         using VALUE_TYPE = typename std::iterator_traits<INPUT_ITERATOR_1>::value_type;
          static_assert(std::is_same<VALUE_TYPE, typename std::iterator_traits<INPUT_ITERATOR_2>::value_type>::value, "iterators must have same value type");
 
          const auto a_size = std::distance(a_begin, a_end);
@@ -64,7 +64,7 @@ namespace tropical_convolution {
       template<typename ITERATOR_1, typename ITERATOR_2>
       typename std::iterator_traits<ITERATOR_1>::value_type min_sum(ITERATOR_1 a_begin, ITERATOR_1 a_end, ITERATOR_2 b_begin, ITERATOR_2 b_end, const std::size_t sum)
       {
-         using VALUE_TYPE = typename std::iterator_traits<ITERATOR_1>::value;
+         using VALUE_TYPE = typename std::iterator_traits<ITERATOR_1>::value_type;
          static_assert(std::is_same<VALUE_TYPE, typename std::iterator_traits<ITERATOR_2>::value_type>::value, "iterators must have same value type");
          VALUE_TYPE val = std::numeric_limits<VALUE_TYPE>::infinity();
 
@@ -86,7 +86,7 @@ namespace tropical_convolution {
       std::tuple<typename std::iterator_traits<ITERATOR_1>::value_type,std::size_t,std::size_t> 
       arg_min_sum(ITERATOR_1 a_begin, ITERATOR_1 a_end, ITERATOR_2 b_begin, ITERATOR_2 b_end, const std::size_t sum)
       {
-         using VALUE_TYPE = typename std::iterator_traits<ITERATOR_1>::value;
+         using VALUE_TYPE = typename std::iterator_traits<ITERATOR_1>::value_type;
          static_assert(std::is_same<VALUE_TYPE, typename std::iterator_traits<ITERATOR_2>::value_type>::value, "iterators must have same value type");
          VALUE_TYPE val = std::numeric_limits<VALUE_TYPE>::infinity();
 

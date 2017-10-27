@@ -22,6 +22,18 @@ void test_naive_Bussieck(const VEC1 a, const VEC2 b)
   for(auto i=0; i<result_naive.size(); ++i) {
     test(result_naive[i] == result_Bussieck_et_al[i]);
   }
+
+  std::vector<std::size_t> result_idx_naive(result_naive.size());
+  std::vector<std::size_t> result_idx_Bussieck_et_al(result_Bussieck_et_al.size());
+  tropical_convolution::min_conv_naive(a.begin(), a.end(), b.begin(), b.end(), result_naive.begin(), result_naive.end(), result_idx_naive.begin());
+  tropical_convolution::min_conv_Bussieck_et_al(a.begin(), a.end(), b.begin(), b.end(), result_Bussieck_et_al.begin(), result_Bussieck_et_al.end(), result_idx_Bussieck_et_al.begin());
+  test(result_naive.size() == result_Bussieck_et_al.size());
+  for(auto i=0; i<result_naive.size(); ++i) {
+    test(result_naive[i] == result_Bussieck_et_al[i]);
+    test(a[result_idx_naive[i]] + b[i - result_idx_naive[i]] == result_naive[i]);
+    test(a[result_idx_Bussieck_et_al[i]] + b[i - result_idx_Bussieck_et_al[i]] == result_Bussieck_et_al[i]);
+  }
+
 }
 
 // test whether naive implementation and Bussieck et al algorithms return same results
