@@ -33,7 +33,6 @@ void test_naive_Bussieck(const VEC1 a, const VEC2 b)
     test(a[result_idx_naive[i]] + b[i - result_idx_naive[i]] == result_naive[i]);
     test(a[result_idx_Bussieck_et_al[i]] + b[i - result_idx_Bussieck_et_al[i]] == result_Bussieck_et_al[i]);
   }
-
 }
 
 // test whether naive implementation and Bussieck et al algorithms return same results
