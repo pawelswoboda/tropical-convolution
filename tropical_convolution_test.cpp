@@ -52,7 +52,6 @@ int main()
   // random input
   {
     // initialize seed explicitly to make unit test reproducible
-
     // random numbers for size of underlying vectors
     std::mt19937 gen(1); //Standard mersenne_twister_engine seeded with 1
     std::uniform_int_distribution<> dis_int(2, 100);

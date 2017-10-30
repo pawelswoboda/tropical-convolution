@@ -15,7 +15,9 @@
 namespace tropical_convolution{
 
       // automatically choose between naive and efficient version of min convolution
-      static const std::size_t min_conv_threshold = 500; // when more elements than indicated by threshold need to be computed, use heuristic, otherwise use naive implementation.
+      // when more elements than indicated by threshold need to be computed, use heuristic, otherwise use naive implementation.
+      // a good value can be gleaned from the results of the benchmark program.
+      static const std::size_t min_conv_threshold = 500; 
 
       template<typename INPUT_ITERATOR_1, typename INPUT_ITERATOR_2, typename OUTPUT_ITERATOR>
       void min_conv(INPUT_ITERATOR_1 a_begin, INPUT_ITERATOR_1 a_end, INPUT_ITERATOR_2 b_begin, INPUT_ITERATOR_2 b_end, OUTPUT_ITERATOR result_begin, OUTPUT_ITERATOR result_end)

@@ -61,37 +61,36 @@ namespace tropical_convolution {
 
        // note: this cover heuristic can only guarantee that if it returns that an element is covered that it is. 
        // However it may occur that an index is returned as not covered while it actually is
-       /*
-       struct cover : public std::vector<INDEX> {
-         cover(const INDEX _n, const INDEX _m) : 
+       struct cover : public std::vector<std::size_t> {
+         cover(const std::size_t _n, const std::size_t _m) : 
            vector(_n + _m, 0),
            n(_n)
          {} 
 
-         const INDEX n; // number of left entries;
+         const std::size_t n; // number of left entries;
 
-         void remove_cover(const INDEX i, const INDEX j)
+         void remove_cover(const std::size_t i, const std::size_t j)
          {
-           if( (*this)[i] > 0 )
+           //assert((*this)[i] > 0);
+           //assert((*this)[n+j] > 0);
+           //if( (*this)[i] > 0 )
            { (*this)[i]--; }
-           if( (*this)[n+j] > 0 )
+           //if( (*this)[n+j] > 0 )
            { (*this)[n+j]--; }
          }
 
-         void add_cover(const INDEX i, const INDEX j)
+         void add_cover(const std::size_t i, const std::size_t j)
          {
-           if( (*this)[i] == 0 && (*this)[n+j] == 0 ){
+           //if( (*this)[i] == 0 && (*this)[n+j] == 0 ){
              (*this)[i]++; 
              (*this)[n+j]++;
-           }
+           //}
          }
 
-         bool covered(const INDEX i, const INDEX j) const
+         bool covered(const std::size_t i, const std::size_t j) const
          {
-           assert(false);
            return !( (*this)[i] == 0 || (*this)[n+j] == 0 );
          }
-         */
 
          /*
          auto add_cover_I = [&](Index i,Index j){
@@ -127,8 +126,8 @@ namespace tropical_convolution {
                   }
                }
             }
-       };
        */
+       };
 
      } // end namespace detail
 
@@ -165,8 +164,11 @@ namespace tropical_convolution {
        };
 
        detail::iterable_priority_queue<indices_value_pair,std::vector<indices_value_pair>,decltype(compare) > queue(compare);
-
        queue.push(indices_value_pair({0, 0, idx_a[0].val+idx_b[0].val})); 
+
+       detail::cover cover(a_size,b_size);
+       cover.add_cover(0,0);
+
 
        while(open > 0) {
          assert(!queue.empty());
@@ -175,6 +177,7 @@ namespace tropical_convolution {
          const auto j = queue.top().idx[1];
          const auto val = queue.top().val;
          queue.pop();
+         cover.remove_cover(i,j);
          const auto underlying_i = idx_a[i].idx;
          const auto underlying_j = idx_b[j].idx;
          const auto underlying_sum = underlying_i + underlying_j;
@@ -202,12 +205,20 @@ namespace tropical_convolution {
          //queue.push_back(indices({i[0], i[1]+1}));
 
          // FILL1: only cover uncovered elements
-         if(i + 1 < a_size && !detail::is_covered(i+1, j, queue.begin(), queue.end())) {
-           queue.push({i+1, j, idx_a[i+1].val + idx_b[j].val});
+         if(i + 1 < a_size) { 
+           if(!cover.covered(i+1,j)) {
+           //if(!detail::is_covered(i+1, j, queue.begin(), queue.end()))
+             queue.push({i+1, j, idx_a[i+1].val + idx_b[j].val});
+             cover.add_cover(i+1,j);
+           }
          }
 
-         if(j + 1 < b_size && !detail::is_covered(i, j+1, queue.begin(), queue.end())) {
-           queue.push({i, j+1, idx_a[i].val + idx_b[j+1].val});
+         if(j + 1 < b_size) {
+           //if(!detail::is_covered(i, j+1, queue.begin(), queue.end()))
+           if(!cover.covered(i,j+1)) {
+             queue.push({i, j+1, idx_a[i].val + idx_b[j+1].val});
+             cover.add_cover(i,j+1);
+           }
          }
        }
      }
