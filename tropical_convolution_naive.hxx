@@ -75,7 +75,7 @@ namespace tropical_convolution {
 
          assert(sum <= a_size-1 + b_size-1);
 
-         for(auto i=std::max(0, int(sum)-int(b_size)-1); i<std::min(sum+1, std::size_t(a_size)); ++i) {
+         for(auto i=std::max(0, int(sum)-int(b_size)); i<std::min(sum+1, std::size_t(a_size)); ++i) {
             val = std::min(val, a_begin[i] + b_begin[sum-i]);
          }
          return val;
@@ -100,7 +100,8 @@ namespace tropical_convolution {
 
          assert(sum <= a_size-1 + b_size-1);
 
-         for(auto i=std::max(0, int(sum)-int(b_size)-1); i<std::min(sum+1, std::size_t(a_size)); ++i) {
+
+         for(auto i=std::max(0, int(sum)-int(b_size)); i<std::min(sum+1, std::size_t(a_size)); ++i) {
            const auto cur_val = a_begin[i] + b_begin[sum-i];
            if(cur_val <= val) {
              a = i;
@@ -108,7 +109,7 @@ namespace tropical_convolution {
              val = cur_val;
            }
          }
-         assert(a < std::numeric_limits<std::size_t>::max() && b < std::numeric_limits<std::size_t>::max());
+         assert(a < a_size && b < b_size);
          return std::make_tuple(val,a,b);;
       }
 
