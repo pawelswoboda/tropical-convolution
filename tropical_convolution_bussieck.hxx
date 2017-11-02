@@ -65,11 +65,11 @@ namespace tropical_convolution {
          const auto result_size = std::distance(result_begin, result_end);
 
          for(auto i=0; i<result_size; ++i) {
-           std::size_t a_idx, b_idx;
            if(result_begin[i] == std::numeric_limits<VALUE_TYPE>::infinity()) { // not assigned yet
+             std::size_t a_idx, b_idx;
              std::tie(result_begin[i], a_idx, b_idx) = arg_min_sum(a_begin, a_end, b_begin, b_end, i);
              result_index_a_begin[i] = a_idx;
-           } 
+           }
          }
        }
 

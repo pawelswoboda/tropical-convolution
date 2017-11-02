@@ -12,10 +12,10 @@ test(const bool& pred)
 }
 
 template<typename VEC1, typename VEC2>
-void test_naive_Bussieck(const VEC1 a, const VEC2 b)
+void test_naive_Bussieck(const VEC1 a, const VEC2 b, const std::size_t result_size)
 {
-  std::vector<double> result_naive(a.size() + b.size()-1);
-  std::vector<double> result_Bussieck_et_al(a.size() + b.size()-1);
+  std::vector<double> result_naive(result_size);
+  std::vector<double> result_Bussieck_et_al(result_size);
   tropical_convolution::min_conv_naive(a.begin(), a.end(), b.begin(), b.end(), result_naive.begin(), result_naive.end());
   tropical_convolution::min_conv_Bussieck_et_al(a.begin(), a.end(), b.begin(), b.end(), result_Bussieck_et_al.begin(), result_Bussieck_et_al.end());
   test(result_naive.size() == result_Bussieck_et_al.size());
@@ -52,7 +52,7 @@ int main()
    std::vector<double> b {0.1, 0.2, 0.05, 1};
    std::reverse(b.begin(), b.end());
 
-   test_naive_Bussieck(a,b);
+   test_naive_Bussieck(a,b,7);
   }
 
   // random input
@@ -67,6 +67,8 @@ int main()
     for(auto run=0; run<1000; ++run) {
       const auto a_size = dis_int(gen); 
       const auto b_size = dis_int(gen);
+      std::uniform_int_distribution<> dis_result_size(2, a_size+b_size-1);
+      const auto result_size = dis_result_size(gen);
 
       std::vector<double> a(a_size);
       for(auto i=0; i<a.size(); ++i) {
@@ -78,7 +80,7 @@ int main()
         b[i] = dis_real(gen);
       }
 
-      test_naive_Bussieck(a,b);
+      test_naive_Bussieck(a,b,result_size);
 
     } 
   }

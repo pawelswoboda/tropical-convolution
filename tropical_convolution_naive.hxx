@@ -28,7 +28,7 @@ namespace tropical_convolution {
          std::fill(result_begin, result_end, std::numeric_limits<VALUE_TYPE>::infinity());
 
          for(auto i=0; i<std::min(result_size, a_size); ++i) {
-            for(auto j=0; j<std::min(b_size, result_size-1); ++j) {
+            for(auto j=0; j<std::min(b_size, result_size-i); ++j) {
                result_begin[i+j] = std::min(result_begin[i+j], a_begin[i] + b_begin[j]); 
             }
          }
