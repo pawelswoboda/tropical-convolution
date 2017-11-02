@@ -19,8 +19,10 @@ void test_naive_Bussieck(const VEC1 a, const VEC2 b)
   tropical_convolution::min_conv_naive(a.begin(), a.end(), b.begin(), b.end(), result_naive.begin(), result_naive.end());
   tropical_convolution::min_conv_Bussieck_et_al(a.begin(), a.end(), b.begin(), b.end(), result_Bussieck_et_al.begin(), result_Bussieck_et_al.end());
   test(result_naive.size() == result_Bussieck_et_al.size());
+
   for(auto i=0; i<result_naive.size(); ++i) {
     test(result_naive[i] == result_Bussieck_et_al[i]);
+    test(result_naive[i] == tropical_convolution::min_sum(a.begin(), a.end(), b.begin(), b.end(), i));
   }
 
   std::vector<std::size_t> result_idx_naive(result_naive.size());
@@ -32,6 +34,11 @@ void test_naive_Bussieck(const VEC1 a, const VEC2 b)
     test(result_naive[i] == result_Bussieck_et_al[i]);
     test(a[result_idx_naive[i]] + b[i - result_idx_naive[i]] == result_naive[i]);
     test(a[result_idx_Bussieck_et_al[i]] + b[i - result_idx_Bussieck_et_al[i]] == result_Bussieck_et_al[i]);
+    double val;
+    std::size_t idx_i, idx_j;
+    std::tie(val, idx_i, idx_j) = tropical_convolution::arg_min_sum(a.begin(), a.end(), b.begin(), b.end(), i);
+    test(result_naive[i] == val);
+    test(result_naive[i] == a[idx_i] + b[idx_j]);
   }
 }
 

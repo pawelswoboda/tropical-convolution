@@ -5,12 +5,9 @@
 #include <cassert>
 #include "tropical_convolution_naive.hxx"
 #include "tropical_convolution_bussieck.hxx"
-
-// do zrobienia: possibly make own project out of min convolution, but then used vector class and associated memory allocator also needs to be a separate project
+#include "min_sum.hxx"
 
 // perform min convolution. Choose automatically betweeen the naive version which is fast on small inputs and the method by Bussieck et al that has better asymptotic running time.
-
-// do zrobienia: no return type, write directly into output iterators.
 
 namespace tropical_convolution{
 

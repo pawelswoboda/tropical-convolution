@@ -25,8 +25,9 @@ void benchmark(std::vector<std::vector<double>>& a, std::vector<std::vector<doub
   auto end_Bussieck_et_al = std::chrono::high_resolution_clock::now();
 
   std::cout << "Input size = " << size 
+    << "; # runs = " << runs
     << "; naive: " << std::chrono::duration_cast<std::chrono::milliseconds>(end_naive-begin_naive).count() 
-    << "(ms); Bussieck et al: " << std::chrono::duration_cast<std::chrono::milliseconds>(end_Bussieck_et_al-begin_Bussieck_et_al).count() << "(ms)" << std::endl;
+    << " ms; Bussieck et al: " << std::chrono::duration_cast<std::chrono::milliseconds>(end_Bussieck_et_al-begin_Bussieck_et_al).count() << " ms" << std::endl;
 }
 
 // compare runtimes of tropical convolution implementations
@@ -34,20 +35,21 @@ int main()
 {
   // random numbers for vector values
   std::mt19937 gen(1); //Standard mersenne_twister_engine seeded with 1
-  std::uniform_real_distribution<> dis_real(1.0, 2.0);
+  //std::uniform_real_distribution<> dis_real(1.0, 2.0);
+  std::uniform_real_distribution<> dis_real(0.0, 10.0);
 
   // compare runtimes for various vector sizes
-  auto max_size = 10000;
+  auto max_size = 40000;
   for(auto vec_size=10; vec_size<max_size; vec_size*=2) {
 
-    std::vector<std::vector<double>> a(max_size/vec_size);
+    std::vector<std::vector<double>> a(10*max_size/vec_size);
     for(auto& vec : a) {
       vec.resize(vec_size);
       for(auto i=0; i<vec.size(); ++i) {
         vec[i] = dis_real(gen);
       }
     }
-    std::vector<std::vector<double>> b(max_size/vec_size);
+    std::vector<std::vector<double>> b(10*max_size/vec_size);
     for(auto& vec : b) {
       vec.resize(vec_size);
       for(auto i=0; i<vec.size(); ++i) {
